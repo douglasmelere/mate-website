@@ -14,38 +14,38 @@ type FooterLinks = Record<string, FooterLink[]>;
 
 const footerLinks: FooterLinks = {
   Produto: [
-    { label: "Mate Copiloto", href: "#" },
-    { label: "Editor Visual", href: "#" },
-    { label: "Integrações", href: "#" },
-    { label: "Alertas & Eventos", href: "#" },
-    { label: "Changelog", href: "#", badge: "Novo" },
+    { label: "Mate Copiloto", href: "#demo" },
+    { label: "Editor Visual", href: "#produto" },
+    { label: "Integrações", href: "#produto" },
+    { label: "Alertas & Eventos", href: "#produto" },
+    { label: "Changelog", href: "#docs", badge: "Novo" },
   ],
   Desenvolvedores: [
-    { label: "Documentação", href: "#" },
-    { label: "API Reference", href: "#" },
-    { label: "SDKs", href: "#" },
-    { label: "Exemplos", href: "#" },
-    { label: "Status", href: "#", badge: "100%" },
+    { label: "Documentação", href: "#docs" },
+    { label: "API Reference", href: "#docs" },
+    { label: "SDKs", href: "#docs" },
+    { label: "Exemplos", href: "#casos" },
+    { label: "Status", href: "#demo", badge: "100%" },
   ],
   Empresa: [
-    { label: "Sobre a Mate", href: "#" },
+    { label: "Sobre a Mate", href: "/" },
     { label: "Casos de Uso", href: "#casos" },
     { label: "Como Funciona", href: "#como-funciona" },
     { label: "Preços", href: "#precos" },
     { label: "Contato", href: "#precos" },
   ],
   Legal: [
-    { label: "Privacidade", href: "#" },
-    { label: "Termos de Uso", href: "#" },
-    { label: "LGPD", href: "#" },
-    { label: "Cookies", href: "#" },
+    { label: "Privacidade", href: "/" },
+    { label: "Termos de Uso", href: "/" },
+    { label: "LGPD", href: "/" },
+    { label: "Cookies", href: "/" },
   ],
 };
 
 const socialLinks = [
-  { icon: GitFork, label: "GitHub", href: "#" },
-  { icon: X, label: "X (Twitter)", href: "#" },
-  { icon: Globe, label: "LinkedIn", href: "#" },
+  { icon: GitFork, label: "GitHub", href: "https://github.com" },
+  { icon: X, label: "X (Twitter)", href: "https://x.com" },
+  { icon: Globe, label: "LinkedIn", href: "https://linkedin.com" },
 ];
 
 export default function Footer() {
@@ -187,7 +187,7 @@ export default function Footer() {
           >
             Desenvolvido com precisão industrial por{" "}
             <a
-              href="#"
+              href="/"
               className="font-medium transition-colors duration-200 hover:text-brand-green"
             >
               Mate

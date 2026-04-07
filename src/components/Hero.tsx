@@ -273,7 +273,7 @@ export default function Hero() {
             variants={fadeUp}
             className="flex flex-wrap items-center justify-center gap-3 mb-5"
           >
-            <Link href="#" className="btn-primary">
+            <Link href="#precos" className="btn-primary">
               Criar meu painel agora
               <ArrowRight className="w-4 h-4" />
             </Link>

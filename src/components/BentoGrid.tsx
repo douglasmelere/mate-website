@@ -258,9 +258,9 @@ export default function BentoGrid() {
                   </p>
                 </div>
               </div>
-              <button className="flex items-center gap-1 text-[11px] text-brand-green hover:text-brand-greenHover transition-colors">
+              <a href="#como-funciona" className="flex items-center gap-1 text-[11px] text-brand-green hover:text-brand-greenHover transition-colors">
                 Ver tudo <ArrowUpRight className="w-3 h-3" />
-              </button>
+              </a>
             </div>
 
             <LiveChart />
@@ -323,7 +323,7 @@ export default function BentoGrid() {
                 +12 protocolos suportados
               </span>
               <a
-                href="#"
+                href="#como-funciona"
                 className="text-[11px] text-brand-green hover:text-brand-greenHover flex items-center gap-0.5 transition-colors"
               >
                 Ver todos <ArrowUpRight className="w-3 h-3" />
