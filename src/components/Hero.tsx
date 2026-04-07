@@ -15,6 +15,8 @@ import {
   Layers,
 } from "lucide-react";
 import Link from "next/link";
+import { Marquee } from "@/components/ui/Marquee";
+import { NumberTicker } from "@/components/ui/NumberTicker";
 
 /* ── Stagger orchestration ─────────────────────────────────────────── */
 const orchestrate: Variants = {
@@ -282,16 +284,29 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-          {/* Protocol connections — a visual proof bar */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-wrap items-center justify-center gap-2"
-          >
-            <ConnectionPill label="Modbus TCP" status="online" />
-            <ConnectionPill label="OPC-UA" status="online" />
-            <ConnectionPill label="MQTT" status="online" />
-            <ConnectionPill label="REST API" status="online" />
-            <ConnectionPill label="EtherNet/IP" status="online" />
+          {/* Protocol connections — infinite marquee */}
+          <motion.div variants={fadeUp} className="relative w-full overflow-hidden">
+            {/* Edge fades */}
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-brand-bg to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-brand-bg to-transparent" />
+            <Marquee duration="28s" gap="0.5rem" pauseOnHover repeat={3}>
+              {[
+                { label: "Modbus TCP", status: "online" as const },
+                { label: "OPC-UA", status: "online" as const },
+                { label: "MQTT", status: "online" as const },
+                { label: "REST API", status: "online" as const },
+                { label: "EtherNet/IP", status: "online" as const },
+                { label: "Profibus DP", status: "online" as const },
+                { label: "BACnet/IP", status: "online" as const },
+                { label: "DNP3", status: "online" as const },
+                { label: "CANopen", status: "warning" as const },
+                { label: "LoRaWAN", status: "online" as const },
+                { label: "Zigbee", status: "online" as const },
+                { label: "SNMP", status: "online" as const },
+              ].map((p) => (
+                <ConnectionPill key={p.label} label={p.label} status={p.status} />
+              ))}
+            </Marquee>
           </motion.div>
         </motion.div>
 
@@ -656,7 +671,7 @@ export default function Hero() {
               </div>
               <div className="text-left">
                 <p className="text-xs font-medium text-white">
-                  +240 equipes integradoras
+                  +<NumberTicker value={240} delay={1.8} className="text-white" /> equipes integradoras
                 </p>
                 <p className="text-[10px] text-gray-500">em produção</p>
               </div>
@@ -680,7 +695,7 @@ export default function Hero() {
                 ))}
               </div>
               <span className="text-xs text-gray-400 font-medium">
-                4.9/5.0
+                <NumberTicker value={4.9} delay={1.9} decimalPlaces={1} className="text-gray-400" />/5.0
               </span>
             </div>
 
@@ -691,7 +706,7 @@ export default function Hero() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
               <span className="text-xs text-gray-400">
-                <span className="text-white font-medium">99.98%</span> uptime
+                <NumberTicker value={99.98} delay={2.0} decimalPlaces={2} className="text-white font-medium" />% uptime
                 nos últimos 90 dias
               </span>
             </div>

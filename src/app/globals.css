@@ -24,6 +24,8 @@
   --animate-shimmer: shimmer 2s linear infinite;
   --animate-pulse-glow: pulseGlow 4s ease-in-out infinite;
   --animate-grain: grain 0.5s steps(1) infinite;
+  --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
+  --animate-marquee-reverse: marquee var(--marquee-duration, 30s) linear infinite reverse;
 }
 
 /* ── Base resets ───────────────────────────────────────────────────── */
@@ -164,6 +166,14 @@
 
   .animate-float-slow {
     animation: float 8s ease-in-out 1s infinite;
+  }
+
+  .animate-marquee {
+    animation: var(--animate-marquee);
+  }
+
+  .animate-marquee-reverse {
+    animation: var(--animate-marquee-reverse);
   }
 
   /* Reusable button components */
@@ -320,6 +330,15 @@
   50% {
     opacity: 0.6;
     transform: scale(1.05);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap, 1rem)));
   }
 }
 
