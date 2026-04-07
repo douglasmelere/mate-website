@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import emailjs from '@emailjs/browser';
 
-const WHATSAPP_NUMBER = "554797847265";
+const WHATSAPP_NUMBER = "5547997847265";
 const COMMERCIAL_EMAIL = "labmatedev@gmail.com";
 
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(

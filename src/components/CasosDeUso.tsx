@@ -253,7 +253,7 @@ export default function CasosDeUso() {
             Ver planos e preços
             <ArrowRight className="w-4 h-4" />
           </a>
-          <a href="https://wa.me/554797847265?text=Ol%C3%A1!%20Tenho%20interesse%20no%20LabMate%20e%20gostaria%20de%20uma%20proposta." target="_blank" rel="noopener noreferrer" className="btn-ghost">
+          <a href="https://wa.me/5547997847265?text=Ol%C3%A1!%20Tenho%20interesse%20no%20LabMate%20e%20gostaria%20de%20uma%20proposta." target="_blank" rel="noopener noreferrer" className="btn-ghost">
             Falar com um especialista
           </a>
         </motion.div>

@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Activity, ArrowUpRight, GitFork, X, Globe, Phone, Mail, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
-const WHATSAPP_NUMBER = "554797847265";
-const PHONE_DISPLAY = "(47) 97847-265";
+const WHATSAPP_NUMBER = "5547997847265";
+const PHONE_DISPLAY = "(47) 99784-7265";
 const EMAIL = "labmatedev@gmail.com";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Olá! Tenho interesse no LabMate e gostaria de mais informações.")}`;
 

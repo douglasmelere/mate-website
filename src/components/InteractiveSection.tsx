@@ -140,9 +140,9 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
   const isDone = stage === "done";
 
   return (
-    <div className="flex h-full min-h-[460px]">
+    <div className="flex flex-col md:flex-row h-full md:min-h-[460px]">
       {/* ── LEFT: Conversation ─────────────────────────────────────── */}
-      <div className="w-[44%] flex-shrink-0 flex flex-col border-r border-brand-dark4/50">
+      <div className="w-full md:w-[44%] h-[300px] md:h-auto flex-shrink-0 flex flex-col border-b md:border-b-0 md:border-r border-brand-dark4/50">
 
         {/* Chat scroll area */}
         <div className="flex-1 overflow-y-auto p-5 space-y-3 min-h-0">
@@ -350,7 +350,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
       </div>
 
       {/* ── RIGHT: Live dashboard preview ─────────────────────────── */}
-      <div className="flex-1 relative overflow-hidden bg-[#090909]">
+      <div className="flex-1 relative overflow-hidden bg-[#090909] min-h-[300px]">
         {/* Dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -611,29 +611,30 @@ function ManualPanel() {
         </div>
       </div>
 
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-col sm:flex-row flex-1 min-h-[400px] sm:min-h-0">
         {/* ── Palette sidebar ──────────────────────────────────── */}
-        <div className="w-[126px] flex-shrink-0 border-r border-brand-dark4/50 overflow-y-auto p-2.5 space-y-4">
+        <div className="w-full sm:w-[126px] h-[100px] sm:h-auto flex-shrink-0 border-b sm:border-b-0 sm:border-r border-brand-dark4/50 overflow-x-auto sm:overflow-y-auto p-2.5 flex sm:flex-col gap-6 sm:gap-4 sm:space-y-4">
           {PALETTE_GROUPS.map((group) => (
-            <div key={group.label}>
-              <p className="text-[9px] text-gray-700 uppercase tracking-widest px-1 mb-1.5">
+            <div key={group.label} className="flex-shrink-0 flex sm:block flex-col">
+              <p className="hidden sm:block text-[9px] text-gray-700 uppercase tracking-widest px-1 mb-1.5">
                 {group.label}
               </p>
-              <div className="space-y-0.5">
+              <div className="flex sm:flex-col gap-2 sm:space-y-0.5">
                 {group.items.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => addWidget(item)}
                     title={`Adicionar ${item.label}`}
-                    className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left
+                    className="flex-shrink-0 sm:w-full flex items-center gap-2 px-3 sm:px-2 py-2 rounded-lg sm:text-left
+                      bg-brand-dark3/40 sm:bg-transparent
                       hover:bg-brand-dark3 hover:border-brand-dark5
-                      group transition-all duration-150 border border-transparent"
+                      group transition-all duration-150 border border-brand-dark4 sm:border-transparent"
                   >
-                    <div className="w-6 h-6 rounded-lg bg-brand-dark3/80 border border-brand-dark4 flex items-center justify-center flex-shrink-0
+                    <div className="hidden sm:flex w-6 h-6 rounded-lg bg-brand-dark3/80 border border-brand-dark4 items-center justify-center flex-shrink-0
                       group-hover:bg-brand-green/8 group-hover:border-brand-green/20 transition-all duration-150">
                       <item.icon className="w-3 h-3 text-gray-600 group-hover:text-brand-green transition-colors duration-150" />
                     </div>
-                    <span className="text-[10px] text-gray-600 group-hover:text-gray-300 transition-colors leading-tight">
+                    <span className="text-[10px] sm:text-gray-600 text-gray-300 group-hover:text-gray-200 transition-colors leading-tight">
                       {item.label}
                     </span>
                   </button>
@@ -969,13 +970,13 @@ export default function InteractiveSection() {
           transition={{ duration: 0.5, delay: 0.35 }}
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a href="#" className="btn-primary">
-            Começar agora — é grátis
+          <Link href="#precos" className="btn-primary">
+            Ver planos e preços
             <ArrowRight className="w-4 h-4" />
+          </Link>
+          <a href="https://wa.me/5547997847265?text=Ol%C3%A1!%20Tenho%20interesse%20no%20LabMate%20e%20gostaria%20de%20uma%20proposta." target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            Falar com um especialista
           </a>
-          <p className="text-sm text-gray-500">
-            Sem cartão de crédito · Plano gratuito para sempre
-          </p>
         </motion.div>
       </div>
     </section>
