@@ -20,6 +20,7 @@ import {
   Trash2,
   RotateCcw,
 } from "lucide-react";
+import Link from "next/link";
 
 /* ── Types ─────────────────────────────────────────────────────────── */
 type Mode = "ai" | "manual";
