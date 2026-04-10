@@ -7,6 +7,12 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/context";
 import type { Locale } from "@/lib/i18n/types";
 
+const FLAG_MAP: Record<Locale, { flag: string; label: string }> = {
+  pt: { flag: "🇧🇷", label: "Português" },
+  en: { flag: "🇺🇸", label: "English" },
+  es: { flag: "🇪🇸", label: "Español" },
+};
+
 export default function Navbar() {
   const { t, locale, setLocale } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
@@ -115,21 +121,23 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* CTA + Language switcher */}
+            {/* CTA + Language flags */}
             <div className="hidden md:flex items-center gap-3">
-              {/* Language switcher */}
-              <div className="flex items-center gap-0.5 rounded-lg border border-brand-dark4 bg-brand-dark3/40 p-0.5">
+              {/* Flag language switcher */}
+              <div className="flex items-center gap-1 rounded-full border border-brand-dark4 bg-brand-dark3/40 p-1">
                 {locales.map((l) => (
                   <button
                     key={l}
                     onClick={() => setLocale(l)}
-                    className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 ${
+                    title={FLAG_MAP[l].label}
+                    aria-label={FLAG_MAP[l].label}
+                    className={`relative w-8 h-8 rounded-full flex items-center justify-center text-lg transition-all duration-200 ${
                       locale === l
-                        ? "bg-brand-green text-brand-dark1"
-                        : "text-gray-500 hover:text-gray-300"
+                        ? "ring-2 ring-brand-green bg-brand-green/15 scale-110 shadow-[0_0_10px_rgba(124,179,66,0.25)]"
+                        : "opacity-50 hover:opacity-90 hover:bg-white/5 hover:scale-105"
                     }`}
                   >
-                    {t.lang[l]}
+                    <span className="leading-none">{FLAG_MAP[l].flag}</span>
                   </button>
                 ))}
               </div>
@@ -174,19 +182,21 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <div className="pt-3 flex flex-col gap-2 border-t border-brand-dark4 mt-3">
-                  {/* Language switcher mobile */}
-                  <div className="flex items-center gap-1.5 px-1">
+                  {/* Flag language switcher mobile */}
+                  <div className="flex items-center justify-center gap-2 px-1 py-1">
                     {locales.map((l) => (
                       <button
                         key={l}
                         onClick={() => setLocale(l)}
-                        className={`flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-150 border ${
+                        title={FLAG_MAP[l].label}
+                        aria-label={FLAG_MAP[l].label}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border ${
                           locale === l
-                            ? "bg-brand-green text-brand-dark1 border-brand-green"
-                            : "text-gray-500 border-brand-dark4 hover:text-gray-300"
+                            ? "border-brand-green bg-brand-green/15 text-white ring-1 ring-brand-green/50"
+                            : "border-brand-dark4 text-gray-500 hover:text-gray-300 hover:border-gray-600"
                         }`}
                       >
-                        {t.lang[l]}
+                        <span className="text-xl leading-none">{FLAG_MAP[l].flag}</span>
                       </button>
                     ))}
                   </div>
