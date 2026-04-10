@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-// Trigger commit for i18n deployment verification
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import BentoGrid from "@/components/BentoGrid";
