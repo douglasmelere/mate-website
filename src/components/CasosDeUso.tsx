@@ -12,6 +12,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -31,106 +32,17 @@ const cardPop: Variants = {
   },
 };
 
-type UseCase = {
-  icon: React.ComponentType<{ className?: string }>;
-  industry: string;
-  title: string;
-  description: string;
-  metrics: { label: string; value: string }[];
-  tags: string[];
-  accent: string;
-};
-
-const useCases: UseCase[] = [
-  {
-    icon: Factory,
-    industry: "Manufatura",
-    title: "Linha de montagem automotiva",
-    description:
-      "Monitoramento em tempo real de 47 CLPs distribuídos em 3 linhas de produção. OEE subiu de 72% para 91% em 4 meses.",
-    metrics: [
-      { label: "OEE", value: "+26%" },
-      { label: "Paradas não planejadas", value: "-63%" },
-      { label: "CLPs monitorados", value: "47" },
-    ],
-    tags: ["Modbus TCP", "Siemens S7", "OEE"],
-    accent: "#7cb342",
-  },
-  {
-    icon: Zap,
-    industry: "Energia",
-    title: "Gestão de subestações elétricas",
-    description:
-      "Dashboard unificado para 12 subestações. Alertas automáticos detectam anomalias antes de virar falha. ROI em 3 meses.",
-    metrics: [
-      { label: "Subestações", value: "12" },
-      { label: "Tempo de resposta", value: "100ms" },
-      { label: "Falhas evitadas/mês", value: "8" },
-    ],
-    tags: ["MQTT", "OPC-UA", "Alertas"],
-    accent: "#7cb342",
-  },
-  {
-    icon: Wrench,
-    industry: "Manutenção",
-    title: "Manutenção preditiva de motores",
-    description:
-      "Análise de vibração, temperatura e corrente detecta desgaste 3 semanas antes da falha. Zero paradas não planejadas.",
-    metrics: [
-      { label: "Antecipação de falhas", value: "3 sem." },
-      { label: "Custo manutenção", value: "-41%" },
-      { label: "Uptime", value: "99.7%" },
-    ],
-    tags: ["Sensores IoT", "IA preditiva", "Alertas"],
-    accent: "#7cb342",
-  },
-  {
-    icon: FlaskConical,
-    industry: "Farmacêutico",
-    title: "Rastreabilidade de processo",
-    description:
-      "Conformidade regulatória com rastreio completo de temperatura, umidade e lote em câmaras frias e reatores.",
-    metrics: [
-      { label: "Pontos rastreados", value: "280" },
-      { label: "Auditorias ANVISA", value: "100%" },
-      { label: "Relatórios", value: "Auto" },
-    ],
-    tags: ["LGPD", "Conformidade", "Rastreio"],
-    accent: "#7cb342",
-  },
-  {
-    icon: Truck,
-    industry: "Logística",
-    title: "Controle de frota e armazéns",
-    description:
-      "Temperatura de câmaras frias, posição de empilhadeiras e nível de estoque integrados num único dashboard.",
-    metrics: [
-      { label: "Câmaras monitoradas", value: "34" },
-      { label: "Desvios de temp.", value: "-78%" },
-      { label: "Avarias", value: "-55%" },
-    ],
-    tags: ["IoT", "GPS", "Alertas"],
-    accent: "#7cb342",
-  },
-  {
-    icon: Wind,
-    industry: "Energia Renovável",
-    title: "Parque eólico offshore",
-    description:
-      "Telemetria de 60 turbinas, análise de performance por vento e previsão de geração integrada com dados meteorológicos.",
-    metrics: [
-      { label: "Turbinas", value: "60" },
-      { label: "Geração prevista", value: "±2%" },
-      { label: "Tempo diagnóstico", value: "-70%" },
-    ],
-    tags: ["SCADA", "REST API", "BI"],
-    accent: "#7cb342",
-  },
-];
 
 export default function CasosDeUso() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const casesWithIcons = t.casos.items.map((uc, i) => ({
+    ...uc,
+    icon: [Factory, Zap, Wrench, FlaskConical, Truck, Wind][i],
+    accent: "#7cb342",
+  }));
 
   return (
     <section
@@ -156,19 +68,18 @@ export default function CasosDeUso() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <CheckCircle2 className="w-3 h-3" />
-            Casos reais de uso
+            {t.casos.badge}
           </span>
           <h2
             id="casos-heading"
             className="text-display-lg font-bold text-white text-balance mb-5"
           >
-            Chão de fábrica real.
+             {t.casos.headline1}
             <br />
-            <span className="text-gray-500">Resultados mensuráveis.</span>
+            <span className="text-gray-500">{t.casos.headline2}</span>
           </h2>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed max-w-xl">
-            Integradores e engenheiros de automação usando LabMate em produção —
-            de montadoras a parques eólicos.
+            {t.casos.sub}
           </p>
         </motion.div>
 
@@ -179,7 +90,7 @@ export default function CasosDeUso() {
           animate={inView ? "show" : "hidden"}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
-          {useCases.map((uc) => (
+          {casesWithIcons.map((uc) => (
             <motion.div
               key={uc.title}
               variants={cardPop}
@@ -250,11 +161,11 @@ export default function CasosDeUso() {
           className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a href="#precos" className="btn-primary">
-            Ver planos e preços
+            {t.casos.ctaPrimary}
             <ArrowRight className="w-4 h-4" />
           </a>
           <a href="https://wa.me/5547997847265?text=Ol%C3%A1!%20Tenho%20interesse%20no%20LabMate%20e%20gostaria%20de%20uma%20proposta." target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            Falar com um especialista
+            {t.casos.ctaSecondary}
           </a>
         </motion.div>
       </div>

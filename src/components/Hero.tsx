@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { Marquee } from "@/components/ui/Marquee";
 import { NumberTicker } from "@/components/ui/NumberTicker";
+import { useLanguage } from "@/lib/i18n/context";
 
 /* ── Stagger orchestration ─────────────────────────────────────────── */
 const orchestrate: Variants = {
@@ -190,6 +191,7 @@ function ConnectionPill({
 /*  HERO — "Show, Don't Tell" — Dashboard as centerpiece             */
 /* ═══════════════════════════════════════════════════════════════════ */
 export default function Hero() {
+  const { t, locale } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -236,25 +238,18 @@ export default function Hero() {
           <motion.div variants={fadeUp} className="mb-4">
             <span className="tag-badge">
               <Zap className="w-3 h-3" />
-              Plataforma SaaS · Automação Industrial
+              {t.hero.badge}
             </span>
           </motion.div>
 
-          {/* Headline — massive, brutalista */}
+          {/* Headline */}
           <motion.h1
             variants={fadeUp}
             className="text-display-xl text-white text-balance mb-6"
           >
-            Seus dados de campo.
+            {t.hero.headline}
             <br />
-            <TypewriterText
-              phrases={[
-                "Em painéis que funcionam.",
-                "Sem complicação.",
-                "Em tempo real.",
-                "Na palma da mão.",
-              ]}
-            />
+            <TypewriterText phrases={t.hero.phrases} />
           </motion.h1>
 
           {/* Subheadline */}
@@ -262,12 +257,13 @@ export default function Hero() {
             variants={fadeUp}
             className="text-base sm:text-lg text-gray-400 font-light leading-relaxed text-balance mb-7 max-w-2xl mx-auto"
           >
-            O LabMate conecta{" "}
-            <span className="text-gray-200 font-medium">
-              CLPs, sensores e dispositivos IoT
-            </span>{" "}
-            a dashboards visuais acionáveis — sem servidor local, sem
-            infraestrutura, sem planilha.
+            {t.hero.sub}{" "}
+            <span className="text-gray-200 font-medium">{t.hero.subHighlight}</span>{" "}
+            {locale === "pt"
+              ? "a dashboards visuais acionáveis — sem servidor local, sem infraestrutura, sem planilha."
+              : locale === "en"
+              ? "to actionable visual dashboards — no local server, no infrastructure, no spreadsheets."
+              : "a paneles visuales accionables — sin servidor local, sin infraestructura, sin planillas."}
           </motion.p>
 
           {/* CTAs */}
@@ -276,11 +272,11 @@ export default function Hero() {
             className="flex flex-wrap items-center justify-center gap-3 mb-5"
           >
             <Link href="#precos" className="btn-primary">
-              Criar meu painel agora
+              {t.hero.ctaPrimary}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link href="#demo" className="btn-ghost">
-              Ver demonstração ao vivo
+              {t.hero.ctaSecondary}
             </Link>
           </motion.div>
 
@@ -337,7 +333,7 @@ export default function Hero() {
                 <div className="h-6 max-w-md mx-auto rounded-lg bg-brand-dark3/80 flex items-center px-3 gap-2">
                   <div className="w-2 h-2 rounded-full bg-brand-green/50" />
                   <span className="text-[10px] text-gray-600 font-mono">
-                    labmate.app/painel/linha-producao-01
+                    labmate.app/dashboard/production-line-01
                   </span>
                 </div>
               </div>
@@ -353,34 +349,10 @@ export default function Hero() {
               {/* Top metrics row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
                 {[
-                  {
-                    l: "PRODUÇÃO",
-                    v: "847",
-                    u: "pçs/h",
-                    c: "#7cb342",
-                    icon: BarChart3,
-                  },
-                  {
-                    l: "OEE",
-                    v: "94.2",
-                    u: "%",
-                    c: "#7cb342",
-                    icon: Gauge,
-                  },
-                  {
-                    l: "TEMP. CLP",
-                    v: "42",
-                    u: "°C",
-                    c: "#7cb342",
-                    icon: Thermometer,
-                  },
-                  {
-                    l: "PARADAS",
-                    v: "2",
-                    u: "min",
-                    c: "#f59e0b",
-                    icon: Zap,
-                  },
+                  { l: t.hero.dashProduction, v: "847", u: "pçs/h", c: "#7cb342", icon: BarChart3 },
+                  { l: "OEE", v: "94.2", u: "%", c: "#7cb342", icon: Gauge },
+                  { l: t.hero.dashTempCLP, v: "42", u: "°C", c: "#7cb342", icon: Thermometer },
+                  { l: t.hero.dashStops, v: "2", u: "min", c: "#f59e0b", icon: Zap },
                 ].map((m) => (
                   <div
                     key={m.l}
@@ -413,11 +385,11 @@ export default function Hero() {
                     <div className="flex items-center gap-2">
                       <BarChart3 className="w-3.5 h-3.5 text-brand-green" />
                       <span className="text-xs font-medium text-gray-300">
-                        Fluxo de produção — Linha 01
+                        {t.hero.dashLine}
                       </span>
                     </div>
                     <span className="text-[10px] text-gray-600">
-                      Últimas 8h
+                      {t.hero.dashLast8h}
                     </span>
                   </div>
                   <svg
@@ -486,7 +458,7 @@ export default function Hero() {
                     <div className="flex items-center gap-1.5 self-start mb-2">
                       <Thermometer className="w-3 h-3 text-orange-400" />
                       <span className="text-[9px] text-gray-500 uppercase tracking-widest">
-                        Motor Principal
+                        {t.hero.dashMainMotor}
                       </span>
                     </div>
                     <svg viewBox="0 0 100 60" className="w-20 h-12">
@@ -525,7 +497,7 @@ export default function Hero() {
                     <div className="flex items-center gap-1.5 mb-2">
                       <Cpu className="w-3 h-3 text-brand-green" />
                       <span className="text-[9px] text-gray-500 uppercase tracking-widest">
-                        Status CLPs
+                        {t.hero.dashStatusCLPs}
                       </span>
                     </div>
                     <div className="space-y-1.5">
@@ -561,10 +533,10 @@ export default function Hero() {
               {/* Bottom row — sensor readings */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[
-                  { l: "Pressão", v: "4.2", u: "bar" },
-                  { l: "Vibração", v: "0.8", u: "mm/s" },
-                  { l: "Corrente", v: "14.3", u: "A" },
-                  { l: "Vazão", v: "22.1", u: "m³/h" },
+                  { l: t.hero.dashPressure, v: "4.2", u: "bar" },
+                  { l: t.hero.dashVibration, v: "0.8", u: "mm/s" },
+                  { l: t.hero.dashCurrent, v: "14.3", u: "A" },
+                  { l: t.hero.dashFlow, v: "22.1", u: "m³/h" },
                 ].map((s) => (
                   <div
                     key={s.l}
@@ -636,9 +608,9 @@ export default function Hero() {
               </div>
               <div>
                 <p className="text-[11px] font-medium text-white">
-                  Dashboard gerado
+                  {t.hero.floatDashboard}
                 </p>
-                <p className="text-[9px] text-gray-500">Via Mate Copiloto · 3s</p>
+                <p className="text-[9px] text-gray-500">{t.hero.floatDashboardSub}</p>
               </div>
             </motion.div>
           </div>
@@ -671,9 +643,9 @@ export default function Hero() {
               </div>
               <div className="text-left">
                 <p className="text-xs font-medium text-white">
-                  +<NumberTicker value={240} delay={1.8} className="text-white" /> equipes integradoras
+                  +<NumberTicker value={240} delay={1.8} className="text-white" /> {t.hero.teamsLabel}
                 </p>
-                <p className="text-[10px] text-gray-500">em produção</p>
+                <p className="text-[10px] text-gray-500">{t.hero.teamsUnit}</p>
               </div>
             </div>
 
@@ -706,8 +678,7 @@ export default function Hero() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
               <span className="text-xs text-gray-400">
-                <NumberTicker value={99.98} delay={2.0} decimalPlaces={2} className="text-white font-medium" />% uptime
-                nos últimos 90 dias
+                <NumberTicker value={99.98} delay={2.0} decimalPlaces={2} className="text-white font-medium" />% {t.hero.uptimeLabel}
               </span>
             </div>
           </div>

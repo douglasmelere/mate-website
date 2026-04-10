@@ -21,24 +21,11 @@ import {
   RotateCcw,
 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/context";
 
 /* ── Types ─────────────────────────────────────────────────────────── */
 type Mode = "ai" | "manual";
 type AiStage = "idle" | "generating" | "done";
-
-/* ── Data ──────────────────────────────────────────────────────────── */
-const AI_PROMPTS = [
-  "Dashboard de produção com OEE, eficiência por turno e temperatura dos CLPs da linha 2.",
-  "Painel de energia com consumo por setor, pico de demanda e alertas automáticos.",
-  "Dashboard preditivo com vibração, temperatura e horas de operação dos motores.",
-];
-
-const DEFAULT_STEPS = [
-  "Analisando contexto industrial...",
-  "Identificando variáveis relevantes...",
-  "Selecionando widgets ideais...",
-  "Montando layout do dashboard...",
-];
 
 type AiWidget = {
   icon: React.ComponentType<{ className?: string }>;
@@ -60,21 +47,21 @@ const AI_WIDGETS: AiWidget[] = [
 /* ═══════════════════════════════════════════════════════════════════ */
 /*  AI PANEL — two-column: chat + live preview                        */
 /* ═══════════════════════════════════════════════════════════════════ */
-function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () => void }) {
+function AiPanel({ active, onOpenEditor, t }: { active: boolean; onOpenEditor: () => void; t: any }) {
   const [stage, setStage] = useState<AiStage>("idle");
   const [promptIdx, setPromptIdx] = useState(0);
   const [inputValue, setInputValue] = useState("");
   const [submittedPrompt, setSubmittedPrompt] = useState("");
   const [completedSteps, setCompletedSteps] = useState(0);
   const [visibleWidgets, setVisibleWidgets] = useState(0);
-  const [aiSteps, setAiSteps] = useState<string[]>(DEFAULT_STEPS);
+  const [aiSteps, setAiSteps] = useState<string[]>(t.interactive.steps);
   const [aiExplanation, setAiExplanation] = useState("");
   const [activeWidgetIds, setActiveWidgetIds] = useState<Set<number>>(new Set([0, 1, 2, 3, 4]));
 
   const WIDGET_MS = 160;
 
   async function handleSubmit() {
-    const val = inputValue.trim() || AI_PROMPTS[promptIdx];
+    const val = inputValue.trim() || t.interactive.prompts[promptIdx];
     setSubmittedPrompt(val);
     setInputValue("");
     setStage("generating");
@@ -83,7 +70,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
     setAiExplanation("");
 
     // Chama o endpoint real
-    let steps = DEFAULT_STEPS;
+    let steps = t.interactive.steps;
     let widgetIds = [0, 1, 2, 3, 4];
     let explanation = "";
 
@@ -102,7 +89,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
       });
       if (res.ok) {
         const data = await res.json();
-        steps = data.steps ?? DEFAULT_STEPS;
+        steps = data.steps ?? t.interactive.steps;
         widgetIds = data.widgetIds ?? [0, 1, 2, 3, 4];
         explanation = data.explanation ?? "";
       }
@@ -134,7 +121,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
     setSubmittedPrompt("");
     setCompletedSteps(0);
     setVisibleWidgets(0);
-    setPromptIdx((i) => (i + 1) % AI_PROMPTS.length);
+    setPromptIdx((i) => (i + 1) % t.interactive.prompts.length);
   }
 
   const isIdle = stage === "idle";
@@ -159,10 +146,10 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                 transition={{ duration: 0.2 }}
               >
                 <p className="text-[10px] text-gray-600 uppercase tracking-widest mb-3">
-                  Exemplos de prompt
+                  {t.interactive.promptExamples}
                 </p>
                 <div className="space-y-2">
-                  {AI_PROMPTS.map((prompt, i) => (
+                  {t.interactive.prompts.map((prompt: string, i: number) => (
                     <motion.button
                       key={i}
                       initial={{ opacity: 0, y: 8 }}
@@ -257,9 +244,9 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                           <p className="text-[12px] text-gray-300 leading-relaxed">
                             {aiExplanation || (
                               <>
-                                Dashboard gerado com{" "}
-                                <span className="text-brand-green font-semibold">{activeWidgetIds.size} widgets</span>.
-                                {" "}Tudo ajustável no editor.
+                                {t.interactive.generating}{" "}
+                                <span className="text-brand-green font-semibold">{activeWidgetIds.size}</span>
+                                {" "}{t.interactive.editable}
                               </>
                             )}
                           </p>
@@ -285,7 +272,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                           active:scale-95 transition-all duration-150"
                       >
                         <LayoutDashboard className="w-3 h-3" />
-                        Editar no canvas
+                        {t.interactive.editCanvas}
                       </button>
                       <button
                         onClick={handleReset}
@@ -294,7 +281,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                           active:scale-95 transition-all duration-150 flex items-center gap-1"
                       >
                         <RotateCcw className="w-3 h-3" />
-                        Novo
+                        {t.interactive.newPrompt}
                       </button>
                     </motion.div>
                   )}
@@ -323,7 +310,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                   handleSubmit();
                 }
               }}
-              placeholder={isIdle ? "Descreva seu dashboard..." : "Gerando..."}
+              placeholder={isIdle ? t.interactive.promptPlaceholder : t.interactive.generatingPlaceholder}
               className="flex-1 bg-transparent text-[13px] text-gray-300 placeholder-gray-600
                 resize-none outline-none min-h-[20px] max-h-[80px] leading-relaxed
                 disabled:opacity-30 disabled:cursor-not-allowed"
@@ -345,7 +332,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
             </motion.button>
           </div>
           <p className="text-[10px] text-gray-700 mt-2 text-center">
-            Enter para gerar · Shift+Enter para nova linha
+            {t.interactive.enterHint}
           </p>
         </div>
       </div>
@@ -375,8 +362,8 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                 <LayoutDashboard className="w-6 h-6 text-gray-700" />
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-700 font-medium">Preview ao vivo</p>
-                <p className="text-[11px] text-gray-800 mt-1">Widgets aparecem aqui conforme a IA gera</p>
+                <p className="text-sm text-gray-700 font-medium">{t.interactive.livePreview}</p>
+                <p className="text-[11px] text-gray-800 mt-1">{t.interactive.widgetsHere}</p>
               </div>
               {/* Placeholder ghost widgets */}
               <div className="absolute inset-5 grid grid-cols-3 grid-rows-3 gap-2.5 pointer-events-none">
@@ -484,7 +471,7 @@ function AiPanel({ active, onOpenEditor }: { active: boolean; onOpenEditor: () =
                   transition={{ duration: 1, repeat: Infinity }}
                   className="w-1.5 h-1.5 rounded-full bg-brand-green"
                 />
-                Gerando...
+                {t.interactive.generatingPlaceholder}
               </motion.div>
             )}
             {isDone && (
@@ -547,7 +534,7 @@ type PlacedWidget = {
   hasChart: boolean;
 };
 
-function ManualPanel() {
+function ManualPanel({ t }: { t: any }) {
   const initialWidgets = useMemo<PlacedWidget[]>(
     () => [
       { id: 1, icon: BarChart3, label: "Produção/h",  x: 6,  y: 8,  mockValue: "847",  unit: "p/h", hasChart: true },
@@ -607,7 +594,7 @@ function ManualPanel() {
               disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
           >
             <Trash2 className="w-3 h-3" />
-            Limpar
+            {t.interactive.clearAll}
           </button>
         </div>
       </div>
@@ -668,8 +655,8 @@ function ManualPanel() {
                   <MousePointer2 className="w-5 h-5 text-gray-700" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-gray-700">Canvas vazio</p>
-                  <p className="text-[11px] text-gray-800 mt-0.5">Clique nos widgets para adicionar</p>
+                  <p className="text-sm text-gray-700">{t.interactive.canvasEmpty}</p>
+                  <p className="text-[11px] text-gray-800 mt-0.5">{t.interactive.canvasEmptyHint}</p>
                 </div>
               </motion.div>
             )}
@@ -769,7 +756,7 @@ function ManualPanel() {
 
           {/* Canvas hint */}
           <div className="absolute bottom-3 right-3 text-[9px] text-gray-800 tracking-wide pointer-events-none">
-            Arraste para reposicionar
+            {t.interactive.canvasDrag}
           </div>
         </div>
       </div>
@@ -841,6 +828,7 @@ function ModeTab({
 /*  INTERACTIVE SECTION                                               */
 /* ═══════════════════════════════════════════════════════════════════ */
 export default function InteractiveSection() {
+  const { t } = useLanguage();
   const [mode, setMode] = useState<Mode>("ai");
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -870,19 +858,18 @@ export default function InteractiveSection() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <LayoutDashboard className="w-3 h-3" />
-            Duas formas de criar
+            {t.interactive.badge}
           </span>
           <h2
             id="interactive-heading"
             className="text-display-lg font-bold text-white text-balance mb-5"
           >
-            Do prompt ao painel.
+            {t.interactive.headline1}
             <br />
-            <span className="text-gray-500">Ou do zero, se preferir.</span>
+            <span className="text-gray-500">{t.interactive.headline2}</span>
           </h2>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed max-w-xl">
-            O LabMate não escolhe por você. Deixe a IA trabalhar ou tome o
-            controle total — os dois caminhos chegam no mesmo lugar.
+            {t.interactive.sub}
           </p>
         </motion.div>
 
@@ -917,8 +904,8 @@ export default function InteractiveSection() {
               mode="ai"
               activeMode={mode}
               icon={Sparkles}
-              label="Mate Copiloto"
-              desc="IA que entende o contexto"
+              label={t.interactive.tab1Label}
+              desc={t.interactive.tab1Desc}
               shortcut="⌘1"
               onClick={() => setMode("ai")}
             />
@@ -927,8 +914,8 @@ export default function InteractiveSection() {
               mode="manual"
               activeMode={mode}
               icon={MousePointer2}
-              label="Editor Visual"
-              desc="Drag-and-drop total"
+              label={t.interactive.tab2Label}
+              desc={t.interactive.tab2Desc}
               shortcut="⌘2"
               onClick={() => setMode("manual")}
             />
@@ -946,7 +933,7 @@ export default function InteractiveSection() {
                   transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
                   className="h-full"
                 >
-                  <AiPanel active={mode === "ai"} onOpenEditor={() => setMode("manual")} />
+                  <AiPanel active={mode === "ai"} onOpenEditor={() => setMode("manual")} t={t} />
                 </motion.div>
               ) : (
                 <motion.div
@@ -957,7 +944,7 @@ export default function InteractiveSection() {
                   transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
                   className="h-full"
                 >
-                  <ManualPanel />
+                  <ManualPanel t={t} />
                 </motion.div>
               )}
             </AnimatePresence>

@@ -14,6 +14,7 @@ import {
   MonitorSmartphone,
   CreditCard,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -33,112 +34,23 @@ const fadeUp: Variants = {
   },
 };
 
-/* ── User Profile Card ─────────────────────────────────────────────── */
-type ProfileData = {
-  icon: React.ComponentType<{ className?: string }>;
-  role: string;
-  title: string;
-  description: string;
-  capabilities: string[];
-  devices: string;
-  accent: string;
-};
-
-const profiles: ProfileData[] = [
-  {
-    icon: Shield,
-    role: "Administrador",
-    title: "Gestão da Plataforma",
-    description:
-      "Acesso total ao sistema para gerir subscrições, empresas integradoras e métricas gerais da plataforma.",
-    capabilities: [
-      "Gestão de subscrições",
-      "Métricas globais",
-      "Controle de integradoras",
-    ],
-    devices: "Desktop",
-    accent: "#7cb342",
-  },
-  {
-    icon: Wrench,
-    role: "Criador",
-    title: "Integradora / Engenheiro",
-    description:
-      "Cria projetos, configura fontes de dados, desenha dashboards e gere acessos dos clientes. Colaboração em tempo real.",
-    capabilities: [
-      "Criar e editar projetos",
-      "Construtor de dashboards",
-      "Gestão de clientes",
-      "Colaboração em equipe",
-    ],
-    devices: "Desktop · Tablet",
-    accent: "#7cb342",
-  },
-  {
-    icon: Eye,
-    role: "Visualizador",
-    title: "Cliente Final",
-    description:
-      "Acesso de leitura aos dashboards atribuídos. Visualiza dados em tempo real, filtra por datas e exporta relatórios.",
-    capabilities: [
-      "Visualização em tempo real",
-      "Filtros por período",
-      "Exportar relatórios",
-    ],
-    devices: "Mobile · Tablet · Desktop",
-    accent: "#7cb342",
-  },
-];
-
-/* ── Module Step ───────────────────────────────────────────────────── */
-type ModuleStep = {
-  icon: React.ComponentType<{ className?: string }>;
-  number: string;
-  title: string;
-  description: string;
-};
-
-const modules: ModuleStep[] = [
-  {
-    icon: FolderKanban,
-    number: "01",
-    title: "Gestão de Projetos",
-    description:
-      "Crie espaços isolados para cada cliente ou instalação. Convide visualizadores por e-mail e colabore com outros criadores.",
-  },
-  {
-    icon: Database,
-    number: "02",
-    title: "Integração de Dados",
-    description:
-      "Configure fontes de dados (PostgreSQL, MySQL, MQTT). Mapeie variáveis e aplique tratamento básico como conversão de unidades.",
-  },
-  {
-    icon: LayoutDashboard,
-    number: "03",
-    title: "Construtor de Dashboards",
-    description:
-      "Use o Mate Copiloto (IA) ou o editor drag-and-drop. Gráficos, gauges, LEDs, tabelas — tudo personalizável.",
-  },
-  {
-    icon: MonitorSmartphone,
-    number: "04",
-    title: "Monitorização em Tempo Real",
-    description:
-      "Dashboards com atualização dinâmica. Filtros de tempo e design responsivo para qualquer dispositivo.",
-  },
-  {
-    icon: CreditCard,
-    number: "05",
-    title: "Gestão e Faturação",
-    description:
-      "Painel de consumo para integradoras. Gerencie planos e faturação por número de projetos ativos.",
-  },
-];
 
 export default function ComoFunciona() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const profilesWithIcons = t.como.profiles.map((p, i) => ({
+    ...p,
+    icon: [Shield, Wrench, Eye][i],
+    accent: "#7cb342",
+  }));
+
+  const modulesWithIcons = t.como.modules.map((m, i) => ({
+    ...m,
+    icon: [FolderKanban, Database, LayoutDashboard, MonitorSmartphone, CreditCard][i],
+    number: `0${i + 1}`,
+  }));
 
   return (
     <section
@@ -164,20 +76,18 @@ export default function ComoFunciona() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <Users className="w-3 h-3" />
-            Ecossistema B2B2B
+            {t.como.badge}
           </span>
           <h2
             id="como-funciona-heading"
             className="text-display-lg font-bold text-white text-balance mb-5"
           >
-            Três perfis.
+            {t.como.headline1}
             <br />
-            <span className="text-gray-500">Um fluxo integrado.</span>
+            <span className="text-gray-500">{t.como.headline2}</span>
           </h2>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed max-w-xl">
-            O LabMate foi construído para o modelo B2B2B — empresas integradoras
-            criam dashboards e entregam aos seus próprios clientes com acesso
-            controlado.
+            {t.como.sub}
           </p>
         </motion.div>
 
@@ -188,7 +98,7 @@ export default function ComoFunciona() {
           animate={inView ? "show" : "hidden"}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-28 lg:mb-36"
         >
-          {profiles.map((profile, i) => (
+          {profilesWithIcons.map((profile, i) => (
             <motion.div
               key={profile.role}
               variants={fadeUp}
@@ -267,16 +177,15 @@ export default function ComoFunciona() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <LayoutDashboard className="w-3 h-3" />
-            5 módulos integrados
+            {t.como.badge2}
           </span>
           <h3 className="text-display-md font-bold text-white text-balance mb-5">
-            Do projeto ao painel.
+            {t.como.headline3}
             <br />
-            <span className="text-gray-500">Tudo numa plataforma.</span>
+            <span className="text-gray-500">{t.como.headline4}</span>
           </h3>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed">
-            Cada módulo cobre uma etapa do ciclo completo — da criação do projeto
-            até a faturação por cliente.
+            {t.como.sub2}
           </p>
         </motion.div>
 
@@ -291,7 +200,7 @@ export default function ComoFunciona() {
           <div className="absolute left-[27px] top-8 bottom-8 w-px bg-gradient-to-b from-brand-green/30 via-brand-green/15 to-transparent hidden md:block" />
 
           <div className="space-y-4">
-            {modules.map((mod, i) => (
+            {modulesWithIcons.map((mod, i) => (
               <motion.div
                 key={mod.number}
                 variants={fadeUp}
@@ -307,7 +216,7 @@ export default function ComoFunciona() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-[10px] font-mono text-brand-green/60 bg-brand-green/5 border border-brand-green/10 px-2 py-0.5 rounded-md">
-                      Módulo {mod.number}
+                      {t.como.moduleLabel} {mod.number}
                     </span>
                     <h4 className="text-sm font-semibold text-white group-hover:text-white transition-colors">
                       {mod.title}
@@ -319,7 +228,7 @@ export default function ComoFunciona() {
                 </div>
 
                 {/* Arrow indicator */}
-                {i < modules.length - 1 && (
+                {i < modulesWithIcons.length - 1 && (
                   <div className="hidden md:flex absolute -bottom-4 left-[27px] w-px h-4 items-center justify-center z-0">
                     <div className="w-1.5 h-1.5 rounded-full bg-brand-green/30" />
                   </div>
@@ -337,11 +246,11 @@ export default function ComoFunciona() {
           className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a href="#demo" className="btn-primary">
-            Ver o construtor em ação
+            {t.como.ctaPrimary}
             <ArrowRight className="w-4 h-4" />
           </a>
           <a href="#precos" className="btn-ghost">
-            Falar com um especialista
+            {t.como.ctaSecondary}
           </a>
         </motion.div>
       </div>

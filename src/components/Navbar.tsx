@@ -4,27 +4,32 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, ChevronDown, Menu, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-const navLinks = [
-  {
-    label: "Produto",
-    href: "#produto",
-    children: [
-      { label: "Mate Copiloto", desc: "IA que gera seus dashboards", href: "#demo" },
-      { label: "Editor Visual", desc: "Drag-and-drop industrial", href: "#demo" },
-      { label: "Integrações", desc: "CLPs, Modbus, OPC-UA", href: "#produto" },
-    ],
-  },
-  { label: "Como Funciona", href: "#como-funciona" },
-  { label: "Casos de Uso", href: "#casos" },
-  { label: "Preços", href: "#precos" },
-  { label: "Documentação", href: "#docs" },
-];
+import { useLanguage } from "@/lib/i18n/context";
+import type { Locale } from "@/lib/i18n/types";
 
 export default function Navbar() {
+  const { t, locale, setLocale } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const navLinks = [
+    {
+      label: t.nav.product,
+      href: "#produto",
+      children: [
+        { label: t.nav.copilotoLabel, desc: t.nav.copilotoDesc, href: "#demo" },
+        { label: t.nav.editorLabel, desc: t.nav.editorDesc, href: "#demo" },
+        { label: t.nav.integrationsLabel, desc: t.nav.integrationsDesc, href: "#produto" },
+      ],
+    },
+    { label: t.nav.howItWorks, href: "#como-funciona" },
+    { label: t.nav.useCases, href: "#casos" },
+    { label: t.nav.pricing, href: "#precos" },
+    { label: t.nav.docs, href: "#docs" },
+  ];
+
+  const locales: Locale[] = ["pt", "en", "es"];
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -58,15 +63,9 @@ export default function Navbar() {
                 <Activity className="w-4 h-4 text-brand-green" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-white font-semibold text-base tracking-tight">
-                  Lab
-                </span>
-                <span className="text-brand-green font-semibold text-base tracking-tight">
-                  Mate
-                </span>
-                <span className="hidden sm:inline text-[10px] text-gray-600 font-medium ml-1 mt-auto mb-0.5">
-                  by Mate
-                </span>
+                <span className="text-white font-semibold text-base tracking-tight">Lab</span>
+                <span className="text-brand-green font-semibold text-base tracking-tight">Mate</span>
+                <span className="hidden sm:inline text-[10px] text-gray-600 font-medium ml-1 mt-auto mb-0.5">by Mate</span>
               </div>
             </Link>
 
@@ -76,9 +75,7 @@ export default function Navbar() {
                 <div
                   key={link.label}
                   className="relative"
-                  onMouseEnter={() =>
-                    link.children && setActiveDropdown(link.label)
-                  }
+                  onMouseEnter={() => link.children && setActiveDropdown(link.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <Link
@@ -87,15 +84,10 @@ export default function Navbar() {
                   >
                     {link.label}
                     {link.children && (
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                          activeDropdown === link.label ? "rotate-180" : ""
-                        }`}
-                      />
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === link.label ? "rotate-180" : ""}`} />
                     )}
                   </Link>
 
-                  {/* Dropdown */}
                   <AnimatePresence>
                     {link.children && activeDropdown === link.label && (
                       <motion.div
@@ -112,12 +104,8 @@ export default function Navbar() {
                             onClick={() => setActiveDropdown(null)}
                             className="flex flex-col gap-0.5 px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-brand-dark3 group"
                           >
-                            <span className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">
-                              {child.label}
-                            </span>
-                            <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">
-                              {child.desc}
-                            </span>
+                            <span className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">{child.label}</span>
+                            <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">{child.desc}</span>
                           </Link>
                         ))}
                       </motion.div>
@@ -127,10 +115,27 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* CTA */}
+            {/* CTA + Language switcher */}
             <div className="hidden md:flex items-center gap-3">
+              {/* Language switcher */}
+              <div className="flex items-center gap-0.5 rounded-lg border border-brand-dark4 bg-brand-dark3/40 p-0.5">
+                {locales.map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLocale(l)}
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all duration-150 ${
+                      locale === l
+                        ? "bg-brand-green text-brand-dark1"
+                        : "text-gray-500 hover:text-gray-300"
+                    }`}
+                  >
+                    {t.lang[l]}
+                  </button>
+                ))}
+              </div>
+
               <Link href="#precos" className="btn-primary text-sm py-2 px-5">
-                Fale com a gente
+                {t.nav.cta}
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -139,14 +144,10 @@ export default function Navbar() {
             <button
               className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Abrir menu"
+              aria-label={t.nav.menuOpen}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </nav>
@@ -173,8 +174,24 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <div className="pt-3 flex flex-col gap-2 border-t border-brand-dark4 mt-3">
+                  {/* Language switcher mobile */}
+                  <div className="flex items-center gap-1.5 px-1">
+                    {locales.map((l) => (
+                      <button
+                        key={l}
+                        onClick={() => setLocale(l)}
+                        className={`flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all duration-150 border ${
+                          locale === l
+                            ? "bg-brand-green text-brand-dark1 border-brand-green"
+                            : "text-gray-500 border-brand-dark4 hover:text-gray-300"
+                        }`}
+                      >
+                        {t.lang[l]}
+                      </button>
+                    ))}
+                  </div>
                   <Link href="#precos" onClick={() => setMobileOpen(false)} className="btn-primary w-full justify-center">
-                    Fale com a gente
+                    {t.nav.cta}
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

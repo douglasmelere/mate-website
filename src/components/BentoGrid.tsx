@@ -14,6 +14,7 @@ import {
   GitBranch,
   Lock,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 
 /* ── Stagger ───────────────────────────────────────────────────────── */
 const container: Variants = {
@@ -37,6 +38,7 @@ const cardPop: Variants = {
 
 /* ── Mini live chart ───────────────────────────────────────────────── */
 function LiveChart() {
+  const { t } = useLanguage();
   const points = [28, 45, 38, 52, 41, 60, 55, 72, 65, 80, 74, 88, 82, 95];
   const maxY = 100;
   const width = 320;
@@ -103,7 +105,7 @@ function LiveChart() {
       <div className="absolute top-0 right-0 flex items-center gap-1 px-2 py-0.5 rounded-full bg-brand-green/8 border border-brand-green/15">
         <div className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
         <span className="text-[9px] text-brand-green font-semibold tracking-wider">
-          AO VIVO
+          {t.bento.live}
         </span>
       </div>
     </div>
@@ -127,22 +129,11 @@ function ProtocolBadge({ name, port }: { name: string; port: string }) {
 
 /* ── SaaS advantage list ───────────────────────────────────────────── */
 function SaasAdvantageList() {
+  const { t } = useLanguage();
   const items = [
-    {
-      icon: Globe,
-      title: "Acesso de qualquer lugar",
-      desc: "Browser, tablet ou monitor de centro de controle",
-    },
-    {
-      icon: Shield,
-      title: "Zero infraestrutura local",
-      desc: "Sem servidores SCADA caros para manter",
-    },
-    {
-      icon: Zap,
-      title: "Deploy instantâneo",
-      desc: "Do sensor ao painel em menos de 15 minutos",
-    },
+    { icon: Globe, title: t.bento.adv1Title, desc: t.bento.adv1Desc },
+    { icon: Shield, title: t.bento.adv2Title, desc: t.bento.adv2Desc },
+    { icon: Zap, title: t.bento.adv3Title, desc: t.bento.adv3Desc },
   ];
 
   return (
@@ -193,6 +184,7 @@ function BentoCard({
 /*  BENTO GRID — Asymmetric ecosystem showcase                       */
 /* ═══════════════════════════════════════════════════════════════════ */
 export default function BentoGrid() {
+  const { t, locale } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -219,19 +211,18 @@ export default function BentoGrid() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <Layers className="w-3 h-3" />
-            Ecossistema LabMate
+            {t.bento.badge}
           </span>
           <h2
             id="bento-heading"
             className="text-display-lg font-bold text-white text-balance mb-5"
           >
-            Tudo que o chão de fábrica
+            {t.bento.headline1}
             <br />
-            <span className="text-gray-500">precisa. Nada do que não precisa.</span>
+            <span className="text-gray-500">{t.bento.headline2}</span>
           </h2>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed max-w-xl">
-            Integração nativa com os protocolos mais usados na automação
-            industrial — sem middleware, sem gambiarras.
+            {t.bento.sub}
           </p>
         </motion.div>
 
@@ -251,15 +242,15 @@ export default function BentoGrid() {
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-white">
-                    Sensores em tempo real
+                    {t.bento.c1Title}
                   </h3>
                   <p className="text-[11px] text-gray-500">
-                    Amostragem a cada 100ms — sem perder um ponto
+                    {t.bento.c1Sub}
                   </p>
                 </div>
               </div>
               <a href="#como-funciona" className="flex items-center gap-1 text-[11px] text-brand-green hover:text-brand-greenHover transition-colors">
-                Ver tudo <ArrowUpRight className="w-3 h-3" />
+                {t.bento.c1SeeAll} <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>
 
@@ -268,10 +259,10 @@ export default function BentoGrid() {
             {/* Readings grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
               {[
-                { l: "Pressão", v: "4.2 bar", d: "+0.1" },
-                { l: "Temperatura", v: "72.4°C", d: "-1.2" },
-                { l: "Vibração", v: "0.8 mm/s", d: "estável" },
-                { l: "Corrente", v: "14.3 A", d: "+0.3" },
+                { l: t.bento.readingPressure, v: "4.2 bar", d: "+0.1" },
+                { l: t.bento.readingTemp, v: "72.4°C", d: "-1.2" },
+                { l: t.bento.readingVib, v: "0.8 mm/s", d: t.bento.readingStable },
+                { l: t.bento.readingCurrent, v: "14.3 A", d: "+0.3" },
               ].map((s) => (
                 <div
                   key={s.l}
@@ -289,8 +280,7 @@ export default function BentoGrid() {
             </div>
 
             <p className="mt-5 text-sm text-gray-400 font-light leading-relaxed">
-              Conecte qualquer sensor analógico ou digital ao LabMate. O dado
-              vai do campo para o painel sem passar por planilha nenhuma.
+              {t.bento.c1Body}
             </p>
           </BentoCard>
 
@@ -302,10 +292,10 @@ export default function BentoGrid() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white">
-                  Integração nativa com CLPs
+                  {t.bento.c2Title}
                 </h3>
                 <p className="text-[11px] text-gray-500">
-                  Siemens, Allen-Bradley, Mitsubishi e mais
+                  {t.bento.c2Sub}
                 </p>
               </div>
             </div>
@@ -320,13 +310,13 @@ export default function BentoGrid() {
 
             <div className="mt-5 pt-4 border-t border-brand-dark4/60 flex items-center justify-between">
               <span className="text-[11px] text-gray-500">
-                +12 protocolos suportados
+                {t.bento.c2Protocols}
               </span>
               <a
                 href="#como-funciona"
                 className="text-[11px] text-brand-green hover:text-brand-greenHover flex items-center gap-0.5 transition-colors"
               >
-                Ver todos <ArrowUpRight className="w-3 h-3" />
+                {t.bento.seeAll} <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>
           </BentoCard>
@@ -339,10 +329,10 @@ export default function BentoGrid() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white">
-                  100% SaaS. Zero servidor local.
+                  {t.bento.c3Title}
                 </h3>
                 <p className="text-[11px] text-gray-500">
-                  Abre no browser, funciona em qualquer lugar
+                  {t.bento.c3Sub}
                 </p>
               </div>
             </div>
@@ -356,7 +346,7 @@ export default function BentoGrid() {
                 <Radio className="w-4 h-4 text-brand-green" />
               </div>
               <h3 className="text-sm font-semibold text-white">
-                Topologia IoT visual
+                {t.bento.c4Title}
               </h3>
             </div>
 
@@ -446,8 +436,7 @@ export default function BentoGrid() {
             </div>
 
             <p className="text-xs text-gray-500 leading-relaxed mt-2">
-              Visualize toda a topologia da sua rede industrial. Identifique
-              gargalos e falhas antes que parem a linha.
+              {t.bento.c4Body}
             </p>
           </BentoCard>
 
@@ -458,7 +447,7 @@ export default function BentoGrid() {
                 <GitBranch className="w-4 h-4 text-brand-green" />
               </div>
               <h3 className="text-sm font-semibold text-white">
-                Alertas & automação de eventos
+                {t.bento.c5Title}
               </h3>
             </div>
 
@@ -513,7 +502,7 @@ export default function BentoGrid() {
                 <Lock className="w-4 h-4 text-brand-green" />
               </div>
               <h3 className="text-sm font-semibold text-white">
-                Segurança & controle de acesso
+                {t.bento.c6Title}
               </h3>
             </div>
 

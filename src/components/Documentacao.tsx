@@ -14,6 +14,7 @@ import {
   Video,
   MessageSquare,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -33,96 +34,6 @@ const cardPop: Variants = {
   },
 };
 
-type DocCard = {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-  links: { label: string; href: string }[];
-};
-
-const docCards: DocCard[] = [
-  {
-    icon: Terminal,
-    title: "Quickstart",
-    description: "Do zero a um dashboard funcional em menos de 15 minutos.",
-    links: [
-      { label: "Conectar primeiro CLP", href: "#" },
-      { label: "Criar primeiro dashboard", href: "#" },
-      { label: "Configurar alertas", href: "#" },
-    ],
-  },
-  {
-    icon: Cpu,
-    title: "Guia de CLPs",
-    description: "Configurações passo a passo para os CLPs mais usados no Brasil.",
-    links: [
-      { label: "Siemens S7-1200 / 1500", href: "#" },
-      { label: "Allen-Bradley CompactLogix", href: "#" },
-      { label: "Mitsubishi FX5U / iQ-R", href: "#" },
-    ],
-  },
-  {
-    icon: Radio,
-    title: "Protocolos",
-    description: "Referência completa de todos os protocolos suportados.",
-    links: [
-      { label: "Modbus TCP/RTU", href: "#" },
-      { label: "OPC-UA", href: "#" },
-      { label: "MQTT / MQTT-SN", href: "#" },
-    ],
-  },
-  {
-    icon: Code2,
-    title: "API Reference",
-    description: "REST API completa para integrar LabMate com seus sistemas.",
-    links: [
-      { label: "Autenticação (JWT)", href: "#" },
-      { label: "Endpoints de dados", href: "#" },
-      { label: "Webhooks & eventos", href: "#" },
-    ],
-  },
-  {
-    icon: Puzzle,
-    title: "Mate Copiloto",
-    description: "Como usar a IA generativa para criar e ajustar dashboards.",
-    links: [
-      { label: "Prompts eficazes", href: "#" },
-      { label: "Tipos de widgets suportados", href: "#" },
-      { label: "Limites e boas práticas", href: "#" },
-    ],
-  },
-  {
-    icon: FileText,
-    title: "Referência de Widgets",
-    description: "Todos os componentes visuais disponíveis e suas configurações.",
-    links: [
-      { label: "Gráficos e séries temporais", href: "#" },
-      { label: "Gauges e indicadores", href: "#" },
-      { label: "Tabelas e relatórios", href: "#" },
-    ],
-  },
-];
-
-const resources = [
-  {
-    icon: Video,
-    label: "Tutoriais em vídeo",
-    desc: "YouTube com demos passo a passo",
-    href: "#",
-  },
-  {
-    icon: MessageSquare,
-    label: "Comunidade Discord",
-    desc: "+1.200 integradores ativos",
-    href: "#",
-  },
-  {
-    icon: BookOpen,
-    label: "Blog técnico",
-    desc: "Artigos sobre automação e IoT",
-    href: "#",
-  },
-];
 
 // Simple code snippet component
 function CodeSnippet() {
@@ -132,61 +43,54 @@ function CodeSnippet() {
         <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/60" />
         <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/60" />
         <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]/60" />
-        <span className="ml-2 text-[10px] text-gray-600 font-mono">labmate-sdk.js</span>
+        <span className="ml-2 text-[10px] text-gray-600 font-mono">labmate-api.js</span>
       </div>
       <div className="p-5 font-mono text-[12px] leading-relaxed overflow-x-auto">
         <div>
-          <span className="text-gray-600">// Conectar ao CLP via Modbus TCP</span>
-        </div>
-        <div className="mt-2">
-          <span className="text-purple-400">import</span>
-          <span className="text-gray-300"> LabMate </span>
-          <span className="text-purple-400">from</span>
-          <span className="text-brand-green"> &apos;@mate/labmate-sdk&apos;</span>
-          <span className="text-gray-300">;</span>
+          <span className="text-gray-600">// Buscar métricas do dispositivo via REST</span>
         </div>
         <div className="mt-3">
           <span className="text-purple-400">const</span>
-          <span className="text-blue-300"> client</span>
+          <span className="text-blue-300"> response</span>
           <span className="text-gray-300"> = </span>
-          <span className="text-purple-400">new</span>
-          <span className="text-blue-300"> LabMate</span>
-          <span className="text-gray-300">{"({"}</span>
-        </div>
-        <div className="pl-4">
-          <span className="text-blue-200">apiKey</span>
-          <span className="text-gray-300">: </span>
-          <span className="text-brand-green">&apos;lm_prod_...&apos;</span>
-          <span className="text-gray-300">,</span>
-        </div>
-        <div className="text-gray-300">{"});"}</div>
-        <div className="mt-3">
           <span className="text-purple-400">await</span>
-          <span className="text-gray-300"> client.</span>
-          <span className="text-blue-300">device</span>
-          <span className="text-gray-300">.</span>
-          <span className="text-yellow-300">connect</span>
-          <span className="text-gray-300">{"({"}</span>
+          <span className="text-yellow-300"> fetch</span>
+          <span className="text-gray-300">{"("}</span>
         </div>
         <div className="pl-4">
-          <span className="text-blue-200">protocol</span>
-          <span className="text-gray-300">: </span>
-          <span className="text-brand-green">&apos;modbus-tcp&apos;</span>
+          <span className="text-brand-green">&apos;https://api.labmate.io/v1/devices/clp-01/metrics&apos;</span>
           <span className="text-gray-300">,</span>
         </div>
         <div className="pl-4">
-          <span className="text-blue-200">host</span>
+          <span className="text-gray-300">{"{"}</span>
+        </div>
+        <div className="pl-8">
+          <span className="text-blue-200">headers</span>
+          <span className="text-gray-300">{": {"}</span>
+        </div>
+        <div className="pl-12">
+          <span className="text-brand-green">&apos;Authorization&apos;</span>
           <span className="text-gray-300">: </span>
-          <span className="text-brand-green">&apos;192.168.1.10&apos;</span>
+          <span className="text-brand-green">&apos;Bearer lm_prod_...&apos;</span>
           <span className="text-gray-300">,</span>
+        </div>
+        <div className="pl-8">
+          <span className="text-gray-300">{"}"}</span>
         </div>
         <div className="pl-4">
-          <span className="text-blue-200">port</span>
-          <span className="text-gray-300">: </span>
-          <span className="text-orange-400">502</span>
-          <span className="text-gray-300">,</span>
+          <span className="text-gray-300">{"}"}</span>
         </div>
-        <div className="text-gray-300">{"});"}</div>
+        <div className="text-gray-300">{");"}</div>
+        <div className="mt-3">
+          <span className="text-purple-400">const</span>
+          <span className="text-gray-300"> {"{ "}</span>
+          <span className="text-blue-200">data</span>
+          <span className="text-gray-300">{" } = "}</span>
+          <span className="text-purple-400">await</span>
+          <span className="text-gray-300"> response.</span>
+          <span className="text-yellow-300">json</span>
+          <span className="text-gray-300">{"();"}</span>
+        </div>
         <div className="mt-3 flex items-center gap-2">
           <span className="text-gray-600">// Dados chegando em 100ms ✓</span>
           <div className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
@@ -197,8 +101,21 @@ function CodeSnippet() {
 }
 
 export default function Documentacao() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const docCardsWithIcons = t.docs.cards.map((card, i) => ({
+    ...card,
+    icon: [Terminal, Cpu, Radio, Code2, Puzzle, FileText][i],
+    links: card.links.map(label => ({ label, href: "#" }))
+  }));
+
+  const resourcesWithIcons = t.docs.resources.map((res, i) => ({
+    ...res,
+    icon: [Video, MessageSquare, BookOpen][i],
+    href: "#",
+  }));
 
   return (
     <section
@@ -224,19 +141,18 @@ export default function Documentacao() {
           <div className="max-w-xl">
             <span className="tag-badge mb-5 inline-flex">
               <BookOpen className="w-3 h-3" />
-              Documentação
+              {t.docs.badge}
             </span>
             <h2
               id="docs-heading"
               className="text-display-lg font-bold text-white text-balance mb-5"
             >
-              Tudo que você precisa
+              {t.docs.headline1}
               <br />
-              <span className="text-gray-500">para integrar de verdade.</span>
+              <span className="text-gray-500">{t.docs.headline2}</span>
             </h2>
             <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed">
-              Guias, referências de API e exemplos de código prontos para
-              Modbus, OPC-UA, MQTT e mais.
+              {t.docs.sub}
             </p>
           </div>
           <div className="lg:w-[420px] flex-shrink-0">
@@ -251,7 +167,7 @@ export default function Documentacao() {
           animate={inView ? "show" : "hidden"}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"
         >
-          {docCards.map((card) => (
+          {docCardsWithIcons.map((card) => (
             <motion.div
               key={card.title}
               variants={cardPop}
@@ -294,7 +210,7 @@ export default function Documentacao() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="rounded-[20px] bg-brand-dark2 border border-brand-dark4 p-6 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-brand-dark4/60"
         >
-          {resources.map((r) => (
+          {resourcesWithIcons.map((r) => (
             <a
               key={r.label}
               href={r.href}

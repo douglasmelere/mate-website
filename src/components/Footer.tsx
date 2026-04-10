@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Activity, ArrowUpRight, GitFork, X, Globe, Phone, Mail, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/context";
 
 const WHATSAPP_NUMBER = "5547997847265";
 const PHONE_DISPLAY = "(47) 99784-7265";
@@ -12,35 +13,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 type FooterLink = { label: string; href: string; badge?: string };
 type FooterLinks = Record<string, FooterLink[]>;
 
-const footerLinks: FooterLinks = {
-  Produto: [
-    { label: "Mate Copiloto", href: "#demo" },
-    { label: "Editor Visual", href: "#produto" },
-    { label: "Integrações", href: "#produto" },
-    { label: "Alertas & Eventos", href: "#produto" },
-    { label: "Changelog", href: "#docs", badge: "Novo" },
-  ],
-  Desenvolvedores: [
-    { label: "Documentação", href: "#docs" },
-    { label: "API Reference", href: "#docs" },
-    { label: "SDKs", href: "#docs" },
-    { label: "Exemplos", href: "#casos" },
-    { label: "Status", href: "#demo", badge: "100%" },
-  ],
-  Empresa: [
-    { label: "Sobre a Mate", href: "/" },
-    { label: "Casos de Uso", href: "#casos" },
-    { label: "Como Funciona", href: "#como-funciona" },
-    { label: "Preços", href: "#precos" },
-    { label: "Contato", href: "#precos" },
-  ],
-  Legal: [
-    { label: "Privacidade", href: "/" },
-    { label: "Termos de Uso", href: "/" },
-    { label: "LGPD", href: "/" },
-    { label: "Cookies", href: "/" },
-  ],
-};
+
 
 const socialLinks = [
   { icon: GitFork, label: "GitHub", href: "https://github.com" },
@@ -49,6 +22,27 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
+  const footerLinks: FooterLinks = {
+    [t.footer.catProduct]: t.footer.productLinks.map((l, i) => ({
+      ...l,
+      href: ["#demo", "#produto", "#produto", "#produto", "#docs"][i],
+    })),
+    [t.footer.catDevs]: t.footer.devsLinks.map((l, i) => ({
+      ...l,
+      href: ["#docs", "#docs", "#casos", "#demo"][i],
+    })),
+    [t.footer.catCompany]: t.footer.companyLinks.map((l, i) => ({
+      ...l,
+      href: ["/", "#casos", "#como-funciona", "#precos", "#precos"][i],
+    })),
+    [t.footer.catLegal]: t.footer.legalLinks.map((l, i) => ({
+      ...l,
+      href: ["/privacidade", "/termos", "/privacidade#lgpd", "/cookies"][i],
+    })),
+  };
+
   return (
     <footer
       className="relative border-t border-brand-dark4/60 bg-brand-dark1 overflow-hidden"
@@ -72,18 +66,17 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div>
               <h3 className="text-display-md font-bold text-white text-balance mb-3">
-                Pronto para ver seus dados
+                {t.footer.ctaHeadline1}
                 <br />
-                <span className="text-brand-green">trabalharem por você?</span>
+                <span className="text-brand-green">{t.footer.ctaHeadline2}</span>
               </h3>
               <p className="text-gray-400 font-light max-w-md leading-relaxed">
-                Configure seu primeiro dashboard industrial em menos de 15
-                minutos. Sem instalação, sem consultoria cara.
+                {t.footer.ctaSub}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
               <Link href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-primary text-base px-8 py-3.5">
-                Falar com especialista
+                {t.footer.ctaBtn}
               </Link>
             </div>
           </div>
@@ -111,7 +104,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-sm text-gray-500 font-light leading-relaxed mb-5 max-w-[220px]">
-              Dashboards industriais para o chão de fábrica moderno.
+              {t.footer.tagline}
             </p>
 
             {/* Contact info */}
@@ -185,7 +178,7 @@ export default function Footer() {
             className="text-xs text-gray-600 flex items-center gap-1"
             whileHover={{ scale: 1.02 }}
           >
-            Desenvolvido com precisão industrial por{" "}
+            {t.footer.credit}{" "}
             <a
               href="/"
               className="font-medium transition-colors duration-200 hover:text-brand-green"
@@ -193,7 +186,7 @@ export default function Footer() {
               Mate
             </a>
             <span className="text-gray-700">·</span>
-            <span className="text-gray-700">Luzerna, SC — Brasil</span>
+            <span className="text-gray-700">{t.footer.location}</span>
           </motion.p>
         </div>
       </div>

@@ -16,6 +16,7 @@ import {
   Send
 } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { useLanguage } from "@/lib/i18n/context";
 
 const WHATSAPP_NUMBER = "5547997847265";
 const COMMERCIAL_EMAIL = "labmatedev@gmail.com";
@@ -24,33 +25,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
   "Olá! Tenho interesse no LabMate e gostaria de uma proposta."
 )}`;
 
-const highlights = [
-  "Dashboards ilimitados por projeto",
-  "Conecte CLPs, Modbus, OPC-UA, MQTT",
-  "Alertas via WhatsApp, SMS e e-mail",
-  "Mate Copiloto (IA) incluso",
-  "API REST e integrações customizadas",
-  "Suporte técnico especializado",
-];
 
-const faqs = [
-  {
-    q: "Como funciona o processo de contratação?",
-    a: "Entre em contato com nosso time comercial via WhatsApp ou preenchendo o formulário. Apresentamos uma demonstração, entendemos suas necessidades e montamos uma proposta personalizada.",
-  },
-  {
-    q: "O Mate Copiloto está disponível em todos os planos?",
-    a: "Sim. O Mate Copiloto para geração de dashboards via IA é incluído na contratação. Demonstre agora mesmo na seção acima.",
-  },
-  {
-    q: "O que conta como um dispositivo?",
-    a: "Qualquer fonte de dados: CLP, gateway IoT, sensor com IP, ou endpoint de API REST.",
-  },
-  {
-    q: "Vocês oferecem suporte durante a integração?",
-    a: "Sim. Nossa equipe técnica acompanha a integração com seus sistemas, desde CLPs e gateways até configuração de alertas.",
-  },
-];
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
@@ -71,6 +46,7 @@ const container: Variants = {
 };
 
 export default function Precos() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -147,18 +123,18 @@ export default function Precos() {
         >
           <span className="tag-badge mb-5 inline-flex">
             <Zap className="w-3 h-3" />
-            Proposta personalizada
+            {t.precos.badge}
           </span>
           <h2
             id="precos-heading"
             className="text-display-lg font-bold text-white text-balance mb-5"
           >
-            Preço sob medida para
+            {t.precos.headline1}
             <br />
-            <span className="text-gray-500">o seu processo.</span>
+            <span className="text-gray-500">{t.precos.headline2}</span>
           </h2>
           <p className="text-gray-400 font-light text-base sm:text-lg leading-relaxed">
-            Cada operação é única. Fale com nosso time comercial e receba uma proposta adaptada ao tamanho e às necessidades da sua planta.
+            {t.precos.sub}
           </p>
         </motion.div>
 
@@ -174,10 +150,10 @@ export default function Precos() {
 
             {/* Lado Esquerdo - Info */}
             <div className="p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-brand-dark4/60 relative">
-              <h3 className="text-xl font-semibold text-white mb-6">O que está incluso:</h3>
+              <h3 className="text-xl font-semibold text-white mb-6">{t.precos.included}</h3>
               
               <ul className="space-y-4 mb-10">
-                {highlights.map((h) => (
+                {t.precos.highlights.map((h) => (
                   <li key={h} className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-brand-green flex-shrink-0" />
                     <span className="text-sm text-gray-300">{h}</span>
@@ -187,7 +163,7 @@ export default function Precos() {
 
               <div className="bg-brand-dark3/40 rounded-xl p-5 border border-brand-dark4">
                 <p className="text-sm text-gray-400 mb-4">
-                  Prefere falar direto pelo WhatsApp? Nossa equipe está online.
+                  {t.precos.whatsappPref}
                 </p>
                 <a
                   href={WHATSAPP_URL}
@@ -203,12 +179,12 @@ export default function Precos() {
 
             {/* Lado Direito - Form */}
             <div className="p-8 sm:p-10 relative">
-              <h3 className="text-xl font-semibold text-white mb-6">Solicitar contato</h3>
+              <h3 className="text-xl font-semibold text-white mb-6">{t.precos.formTitle}</h3>
               
               <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[13px] font-medium text-gray-400 ml-1">Nome</label>
+                    <label className="text-[13px] font-medium text-gray-400 ml-1">{t.precos.fieldName}</label>
                     <div className="relative">
                       <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <input 
@@ -218,12 +194,12 @@ export default function Precos() {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full bg-brand-dark3/50 border border-brand-dark4 text-white text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-green/50 focus:ring-1 focus:ring-brand-green/50 transition-all placeholder:text-gray-600"
-                        placeholder="Seu nome"
+                        placeholder={t.precos.phName}
                       />
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[13px] font-medium text-gray-400 ml-1">Telefone / WhatsApp</label>
+                    <label className="text-[13px] font-medium text-gray-400 ml-1">{t.precos.fieldPhone}</label>
                     <div className="relative">
                       <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <input 
@@ -233,14 +209,14 @@ export default function Precos() {
                         value={formData.telefone}
                         onChange={handleChange}
                         className="w-full bg-brand-dark3/50 border border-brand-dark4 text-white text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-green/50 focus:ring-1 focus:ring-brand-green/50 transition-all placeholder:text-gray-600"
-                        placeholder="(00) 00000-0000"
+                        placeholder={t.precos.phPhone}
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[13px] font-medium text-gray-400 ml-1">E-mail corporativo</label>
+                  <label className="text-[13px] font-medium text-gray-400 ml-1">{t.precos.fieldEmail}</label>
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input 
@@ -250,13 +226,13 @@ export default function Precos() {
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full bg-brand-dark3/50 border border-brand-dark4 text-white text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-green/50 focus:ring-1 focus:ring-brand-green/50 transition-all placeholder:text-gray-600"
-                      placeholder="email@suaempresa.com.br"
+                      placeholder={t.precos.phEmail}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[13px] font-medium text-gray-400 ml-1">Empresa</label>
+                  <label className="text-[13px] font-medium text-gray-400 ml-1">{t.precos.fieldCompany}</label>
                   <div className="relative">
                     <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input 
@@ -265,13 +241,13 @@ export default function Precos() {
                       value={formData.empresa}
                       onChange={handleChange}
                       className="w-full bg-brand-dark3/50 border border-brand-dark4 text-white text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-green/50 focus:ring-1 focus:ring-brand-green/50 transition-all placeholder:text-gray-600"
-                      placeholder="Nome da sua empresa"
+                      placeholder={t.precos.phCompany}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[13px] font-medium text-gray-400 ml-1">Como podemos ajudar?</label>
+                  <label className="text-[13px] font-medium text-gray-400 ml-1">{t.precos.fieldMessage}</label>
                   <textarea 
                     required
                     name="message"
@@ -279,7 +255,7 @@ export default function Precos() {
                     onChange={handleChange}
                     rows={3}
                     className="w-full bg-brand-dark3/50 border border-brand-dark4 text-white text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-brand-green/50 focus:ring-1 focus:ring-brand-green/50 transition-all placeholder:text-gray-600 resize-none"
-                    placeholder="Nos conte um pouco sobre o seu projeto ou necessidade..."
+                    placeholder={t.precos.phMessage}
                   />
                 </div>
 
@@ -294,7 +270,7 @@ export default function Precos() {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        Enviar solicitação
+                        {t.precos.submit}
                       </>
                     )}
                   </button>
@@ -303,12 +279,12 @@ export default function Precos() {
                 {submitStatus === "success" && (
                   <p className="text-center text-sm text-brand-green mt-3 flex items-center justify-center gap-2">
                     <CheckCircle2 className="w-4 h-4" />
-                    Mensagem enviada! Retornaremos em breve.
+                    {t.precos.success}
                   </p>
                 )}
                 {submitStatus === "error" && (
                   <p className="text-center text-sm text-red-500 mt-3">
-                    Erro ao enviar mensagem. Tente pelo WhatsApp.
+                    {t.precos.error}
                   </p>
                 )}
               </form>
@@ -325,10 +301,10 @@ export default function Precos() {
         >
           <h3 className="text-center text-lg font-semibold text-white mb-8 flex items-center justify-center gap-2">
             <HelpCircle className="w-4 h-4 text-brand-green" />
-            Perguntas frequentes
+            {t.precos.faqTitle}
           </h3>
           <div className="space-y-2">
-            {faqs.map((faq, i) => (
+            {t.precos.faqs.map((faq, i) => (
               <div
                 key={i}
                 className="rounded-2xl bg-brand-dark2 border border-brand-dark4 overflow-hidden"

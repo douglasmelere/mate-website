@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import CookieBanner from "@/components/CookieBanner";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -96,7 +98,10 @@ export default function RootLayout({
       <body suppressHydrationWarning className="min-h-screen flex flex-col bg-brand-bg font-sans antialiased">
         {/* Film grain noise overlay for premium texture */}
         <div className="noise-overlay" aria-hidden="true" />
-        {children}
+        <LanguageProvider>
+          {children}
+          <CookieBanner />
+        </LanguageProvider>
       </body>
     </html>
   );
