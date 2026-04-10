@@ -12,5 +12,10 @@ jobs:
     steps:
       - name: Trigger Coolify Webhook
         run: |
-          curl --request GET '${{ secrets.COOLIFY_WEBHOOK_URL }}' \
-               --header 'Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}'
+          if [ -z "${{ secrets.COOLIFY_WEBHOOK_URL }}" ]; then
+            echo "Erro: O segredo COOLIFY_WEBHOOK_URL não está configurado."
+            exit 1
+          fi
+          
+          curl --fail --request GET "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
+               --header "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
