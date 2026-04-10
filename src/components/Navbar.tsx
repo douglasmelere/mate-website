@@ -65,6 +65,7 @@ export default function Navbar() {
               <div className="flex items-baseline gap-1">
                 <span className="text-white font-semibold text-base tracking-tight">Lab</span>
                 <span className="text-brand-green font-semibold text-base tracking-tight">Mate</span>
+                <span className="hidden sm:inline text-[10px] text-gray-400 font-bold ml-1 mt-auto mb-0.5 ml-1">V2</span>
                 <span className="hidden sm:inline text-[10px] text-gray-600 font-medium ml-1 mt-auto mb-0.5">by Mate</span>
               </div>
             </Link>
