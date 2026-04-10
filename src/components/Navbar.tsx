@@ -148,15 +148,36 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={t.nav.menuOpen}
-              aria-expanded={mobileOpen}
-            >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            {/* Mobile: flags + hamburger */}
+            <div className="flex md:hidden items-center gap-2">
+              {/* Flag language switcher — always visible on mobile */}
+              <div className="flex items-center gap-0.5 rounded-full border border-brand-dark4 bg-brand-dark3/40 p-0.5">
+                {locales.map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLocale(l)}
+                    title={FLAG_MAP[l].label}
+                    aria-label={FLAG_MAP[l].label}
+                    className={`relative w-7 h-7 rounded-full flex items-center justify-center text-base transition-all duration-200 ${
+                      locale === l
+                        ? "ring-2 ring-brand-green bg-brand-green/15 scale-110 shadow-[0_0_8px_rgba(124,179,66,0.25)]"
+                        : "opacity-50 hover:opacity-90 hover:bg-white/5 hover:scale-105"
+                    }`}
+                  >
+                    <span className="leading-none">{FLAG_MAP[l].flag}</span>
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={t.nav.menuOpen}
+                aria-expanded={mobileOpen}
+              >
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </nav>
 
@@ -182,24 +203,6 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <div className="pt-3 flex flex-col gap-2 border-t border-brand-dark4 mt-3">
-                  {/* Flag language switcher mobile */}
-                  <div className="flex items-center justify-center gap-2 px-1 py-1">
-                    {locales.map((l) => (
-                      <button
-                        key={l}
-                        onClick={() => setLocale(l)}
-                        title={FLAG_MAP[l].label}
-                        aria-label={FLAG_MAP[l].label}
-                        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border ${
-                          locale === l
-                            ? "border-brand-green bg-brand-green/15 text-white ring-1 ring-brand-green/50"
-                            : "border-brand-dark4 text-gray-500 hover:text-gray-300 hover:border-gray-600"
-                        }`}
-                      >
-                        <span className="text-xl leading-none">{FLAG_MAP[l].flag}</span>
-                      </button>
-                    ))}
-                  </div>
                   <Link href="#precos" onClick={() => setMobileOpen(false)} className="btn-primary w-full justify-center">
                     {t.nav.cta}
                     <ArrowRight className="w-3.5 h-3.5" />
