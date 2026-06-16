@@ -246,10 +246,10 @@ export const es: Dict = {
     badge: "Cuenta de prueba · Gratis",
     headline1: "Prueba LabMate",
     headline2: "antes de decidir.",
-    sub: "Crea una cuenta de prueba gratuita y explora la plataforma por tu cuenta — desde el Mate Copiloto hasta el editor visual, sin compromiso.",
+    sub: "Crea una cuenta de prueba gratuita y explora la plataforma por tu cuenta — desde Mate Copiloto hasta el editor visual, sin compromiso.",
     steps: [
       { title: "Crea tu cuenta", description: "Regístrate en segundos con tu correo. Sin tarjeta de crédito y sin instalación." },
-      { title: "Explora la plataforma", description: "Accede al Mate Copiloto y al editor visual para crear tus primeros dashboards." },
+      { title: "Explora la plataforma", description: "Accede a Mate Copiloto y al editor visual para crear tus primeros dashboards." },
       { title: "Conecta o simula datos", description: "Usa datos de ejemplo o conecta tus propios PLCs, sensores y dispositivos IoT." },
       { title: "Escala cuando quieras", description: "¿Te gustó? Habla con nuestro equipo y pasa a un plan a la medida de tu operación." },
     ],

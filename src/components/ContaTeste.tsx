@@ -113,7 +113,7 @@ export default function ContaTeste() {
               <h3 className="relative text-sm font-semibold text-white mb-2">
                 {step.title}
               </h3>
-              <p className="relative text-[13px] text-gray-500 font-light leading-relaxed">
+              <p className="relative text-[13px] text-gray-400 font-light leading-relaxed">
                 {step.description}
               </p>
             </motion.div>
@@ -143,7 +143,7 @@ export default function ContaTeste() {
                   href={SIGNUP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary text-base px-8 py-3.5"
+                  className="btn-primary w-full sm:w-auto justify-center text-base px-8 py-3.5"
                 >
                   {t.teste.ctaButton}
                   <ArrowUpRight className="w-4 h-4" />
@@ -153,7 +153,7 @@ export default function ContaTeste() {
                 </a>
               </div>
 
-              <p className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
+              <p className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
                 <CheckCircle2 className="w-3.5 h-3.5 text-brand-green" />
                 {t.teste.reassurance}
               </p>

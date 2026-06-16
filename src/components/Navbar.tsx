@@ -77,7 +77,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <div
                   key={link.label}
@@ -123,7 +123,7 @@ export default function Navbar() {
             </div>
 
             {/* CTA + Language flags */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3">
               {/* Flag language switcher */}
               <div className="flex items-center gap-1 rounded-full border border-brand-dark4 bg-brand-dark3/40 p-1">
                 {locales.map((l) => (
@@ -150,7 +150,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile: flags + hamburger */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex lg:hidden items-center gap-2">
               {/* Flag language switcher — always visible on mobile */}
               <div className="flex items-center gap-0.5 rounded-full border border-brand-dark4 bg-brand-dark3/40 p-0.5">
                 {locales.map((l) => (
@@ -190,7 +190,7 @@ export default function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="md:hidden overflow-hidden border-t border-white/5"
+              className="lg:hidden overflow-hidden border-t border-white/5"
             >
               <div className="px-4 py-4 space-y-1 bg-brand-bg/98 backdrop-blur-xl">
                 {navLinks.map((link) => (
