@@ -6,6 +6,7 @@ import ComoFunciona from "@/components/ComoFunciona";
 import InteractiveSection from "@/components/InteractiveSection";
 import CasosDeUso from "@/components/CasosDeUso";
 import Precos from "@/components/Precos";
+import ContaTeste from "@/components/ContaTeste";
 import Documentacao from "@/components/Documentacao";
 import Footer from "@/components/Footer";
 
@@ -37,6 +38,9 @@ export default function Home() {
 
       {/* Preços */}
       <Precos />
+
+      {/* Conta de Teste — cadastro self-service (dev.labmate.com.br/signup) */}
+      <ContaTeste />
 
       {/* Documentação */}
       <Documentacao />

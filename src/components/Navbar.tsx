@@ -32,6 +32,7 @@ export default function Navbar() {
     { label: t.nav.howItWorks, href: "#como-funciona" },
     { label: t.nav.useCases, href: "#casos" },
     { label: t.nav.pricing, href: "#precos" },
+    { label: t.nav.testAccount, href: "#teste" },
     { label: t.nav.docs, href: "#docs" },
   ];
 

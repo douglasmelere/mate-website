@@ -10,6 +10,7 @@ export const pt: Dict = {
     useCases: "Casos de Uso",
     pricing: "Preços",
     docs: "Documentação",
+    testAccount: "Teste grátis",
     cta: "Fale com a gente",
     menuOpen: "Abrir menu",
   },
@@ -239,6 +240,24 @@ export const pt: Dict = {
       { q: "O que conta como um dispositivo?", a: "Qualquer fonte de dados: CLP, gateway IoT, sensor com IP, ou endpoint de API REST." },
       { q: "Vocês oferecem suporte durante a integração?", a: "Sim. Nossa equipe técnica acompanha a integração com seus sistemas, desde CLPs e gateways até configuração de alertas." },
     ],
+  },
+
+  teste: {
+    badge: "Conta de teste · Grátis",
+    headline1: "Experimente o LabMate",
+    headline2: "antes de decidir.",
+    sub: "Crie uma conta de teste gratuita e explore a plataforma por conta própria — do Mate Copiloto ao editor visual, sem compromisso.",
+    steps: [
+      { title: "Crie sua conta", description: "Cadastre-se em segundos com seu e-mail. Sem cartão de crédito e sem instalação." },
+      { title: "Explore a plataforma", description: "Acesse o Mate Copiloto e o editor visual para montar seus primeiros dashboards." },
+      { title: "Conecte ou simule dados", description: "Use dados de exemplo ou conecte seus próprios CLPs, sensores e dispositivos IoT." },
+      { title: "Evolua quando quiser", description: "Gostou? Fale com nosso time e migre para um plano sob medida para a sua operação." },
+    ],
+    ctaTitle: "Pronto para colocar a mão na massa?",
+    ctaSub: "Crie sua conta de teste agora e monte seu primeiro dashboard industrial em minutos.",
+    ctaButton: "Criar conta de teste",
+    ctaSecondary: "Falar com especialista",
+    reassurance: "Sem cartão de crédito · Acesso imediato",
   },
 
   docs: {

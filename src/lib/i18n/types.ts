@@ -10,6 +10,7 @@ export type Dict = {
     useCases: string;
     pricing: string;
     docs: string;
+    testAccount: string;
     cta: string;
     menuOpen: string;
   };
@@ -124,6 +125,14 @@ export type Dict = {
     submit: string; success: string; error: string;
     faqTitle: string;
     faqs: Array<{ q: string; a: string }>;
+  };
+
+  teste: {
+    badge: string;
+    headline1: string; headline2: string; sub: string;
+    steps: Array<{ title: string; description: string }>;
+    ctaTitle: string; ctaSub: string; ctaButton: string; ctaSecondary: string;
+    reassurance: string;
   };
 
   docs: {
